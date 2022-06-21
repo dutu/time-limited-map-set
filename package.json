@@ -1,6 +1,6 @@
 {
   "name": "time-limited-map-set",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "time limited map and set",
   "main": "index.mjs",
   "type": "module",

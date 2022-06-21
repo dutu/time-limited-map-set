@@ -21,6 +21,11 @@ export class TimeLimitedMap extends Map {
     })
   }
 
+  get size() {
+    this._cleanup()
+    return super.size
+  }
+
   _cleanup() {
     const maxAge = Date.now() - this.maxMs
     Array.from(this._mts.entries()).forEach(([key, mts]) => {
@@ -56,6 +61,11 @@ export class TimeLimitedSet extends Set {
     })
   }
 
+  get size() {
+    this._cleanup()
+    return super.size
+  }
+
   _cleanup() {
     const maxAge = Date.now() - this.maxMs
     Array.from(this._mts.entries()).forEach(([key, mts]) => {
@@ -66,3 +76,4 @@ export class TimeLimitedSet extends Set {
     })
   }
 }
+
