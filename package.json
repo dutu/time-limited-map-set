@@ -1,5 +1,5 @@
 {
-  "name": "time-limited-map",
+  "name": "time-limited-map-set",
   "version": "1.0.0",
   "description": "time limited map and set",
   "main": "index.mjs",
@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["map", "set", "timeout", "time limit"],
   "author": "dutu <dutu@protonmail.com>",
-  "license": "ISC"
+  "license": "MIT"
 }
