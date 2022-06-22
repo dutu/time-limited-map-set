@@ -1,8 +1,8 @@
 export class TimeLimitedMap extends Map {
-  constructor(maxMs) {
+  constructor(expiryMs) {
     super()
     this._mts = new Map()
-    this.maxMs = maxMs
+    this.expiryMs = expiryMs
     Object.getOwnPropertyNames(Object.getPrototypeOf(new Map())).forEach((prop) => {
       if (typeof super[prop] === 'function' && prop !== 'constructor') {
         if (prop === 'set') {
@@ -26,22 +26,33 @@ export class TimeLimitedMap extends Map {
     return super.size
   }
 
+  getExpiryMts(key) {
+    const mts = this._mts.get(key)
+    return mts ? mts + this.expiryMs : mts
+  }
+
+  setExpiryMs(expiryMs) {
+    this._mts = expiryMs
+  }
+
   _cleanup() {
-    const maxAge = Date.now() - this.maxMs
-    Array.from(this._mts.entries()).forEach(([key, mts]) => {
-      if (mts < maxAge) {
+    const expiryTimeMts = Date.now() - this.expiryMs
+    for (const [key, mts] of this._mts.entries()) {
+      if (mts < expiryTimeMts) {
         this._mts.delete(key)
         super.delete(key)
+      } else {
+        break
       }
-    })
+    }
   }
 }
 
 export class TimeLimitedSet extends Set {
-  constructor(maxMs) {
+  constructor(expiryMs) {
     super()
     this._mts = new Map()
-    this.maxMs = maxMs
+    this.maxMs = expiryMs
     Object.getOwnPropertyNames(Object.getPrototypeOf(new Set())).forEach((prop) => {
       if (typeof super[prop] === 'function' && prop !== 'constructor') {
         if (prop === 'add') {
@@ -66,14 +77,24 @@ export class TimeLimitedSet extends Set {
     return super.size
   }
 
+  getExpiryMts(key) {
+    const mts = this._mts.get(key)
+    return mts ? mts + this.expiryMs : mts
+  }
+
+  setExpiryMs(expiryMs) {
+    this._mts = expiryMs
+  }
+
   _cleanup() {
-    const maxAge = Date.now() - this.maxMs
-    Array.from(this._mts.entries()).forEach(([key, mts]) => {
-      if (mts < maxAge) {
+    const expiryTimeMts = Date.now() - this.maxMs
+    for (const [key, mts] of this._mts.entries()) {
+      if (mts < expiryTimeMts) {
         this._mts.delete(key)
         super.delete(key)
+      } else {
+        break
       }
-    })
+    }
   }
 }
-

@@ -1,13 +1,23 @@
 {
   "name": "time-limited-map-set",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "time limited map and set",
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
-  "keywords": ["map", "set", "timeout", "time limit"],
+  "keywords": [
+    "map",
+    "set",
+    "timeout",
+    "time limit",
+    "expiry"
+  ],
   "author": "dutu <dutu@protonmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0"
+  }
 }
