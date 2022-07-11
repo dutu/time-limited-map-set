@@ -53,7 +53,7 @@ export class TimeLimitedSet extends Set {
   constructor(expiryMs, iterable= []) {
     super(iterable)
     const now = Date.now()
-    this._mts = new Map(iterable.map((item) => [item[0], now]))
+    this._mts = new Map(iterable.map((item) => [item, now]))
     this.expiryMs = expiryMs
     Object.getOwnPropertyNames(Object.getPrototypeOf(new Set())).forEach((prop) => {
       if (typeof super[prop] === 'function' && prop !== 'constructor') {

@@ -28,7 +28,6 @@ describe('TimeLimitedMap', function () {
     expect(collect.size).equal(2)
   })
 
-
   it(`can add items`, function () {
     const collect = new TimeLimitedMap(10)
     const [key, value] = ['key1', 'value1']
@@ -61,6 +60,13 @@ describe('TimeLimitedMap', function () {
 })
 
 describe('TimeLimitedSet', function () {
+  it(`can initialize with items`, function () {
+    const collect = new TimeLimitedSet(10, ['key1', 'key2'])
+    expect(collect.has('key1')).equal(true)
+    expect(collect.has('key2')).equal(true)
+    expect(collect.size).equal(2)
+  })
+
   it(`can add items`, function () {
     const collect = new TimeLimitedSet(10)
     const key = 'key1'
@@ -69,17 +75,10 @@ describe('TimeLimitedSet', function () {
     expect(collect.size).equal(1)
   })
 
-  it(`removes items when expired (after set time)`, async function () {
-    const collect = new TimeLimitedSet(1200)
-    await addSetItems(collect, 5)
-    for (let i = 0; i < 5; i += 1) {
-      expect(collect.size).equal(5 - i)
-      let entries = Array.from(collect.entries())
-      for (let c = 0; c < 5 - i; c += 1) {
-        expect(entries[c][0]).equal(`key${i + c}`)
-      }
-
-      await sleep(200)
-    }
+  it(`removes items when expired (after set time), when initialized with items`, async function () {
+    const collect = new TimeLimitedSet(10, ['key1', 'key2'])
+    expect(collect.size).equal(2)
+    await sleep(110)
+    expect(collect.size).equal(0)
   })
 })
