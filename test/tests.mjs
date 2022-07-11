@@ -19,7 +19,16 @@ const addSetItems = async (set, count) => {
     await sleep(200)
   }
 }
+
 describe('TimeLimitedMap', function () {
+  it(`can initialize with items`, function () {
+    const collect = new TimeLimitedMap(10, [['key1', 'value1'], ['key2', 'value2']])
+    expect(collect.get('key1')).equal('value1')
+    expect(collect.get('key2')).equal('value2')
+    expect(collect.size).equal(2)
+  })
+
+
   it(`can add items`, function () {
     const collect = new TimeLimitedMap(10)
     const [key, value] = ['key1', 'value1']
@@ -41,6 +50,13 @@ describe('TimeLimitedMap', function () {
 
       await sleep(200)
     }
+  })
+
+  it(`removes items when expired (after set time), when initialized with items`, async function () {
+    const collect = new TimeLimitedMap(100, [['key1', 'value1'], ['key2', 'value2']])
+    expect(collect.size).equal(2)
+    await sleep(110)
+    expect(collect.size).equal(0)
   })
 })
 

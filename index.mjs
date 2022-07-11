@@ -1,7 +1,8 @@
 export class TimeLimitedMap extends Map {
-  constructor(expiryMs) {
-    super()
-    this._mts = new Map()
+  constructor(expiryMs, iterable= []) {
+    super(iterable)
+    const now = Date.now()
+    this._mts = new Map(iterable.map((item) => [item[0], now]))
     this.expiryMs = expiryMs
     Object.getOwnPropertyNames(Object.getPrototypeOf(new Map())).forEach((prop) => {
       if (typeof super[prop] === 'function' && prop !== 'constructor') {
@@ -32,7 +33,7 @@ export class TimeLimitedMap extends Map {
   }
 
   setExpiryMs(expiryMs) {
-    this._mts = expiryMs
+    this.expiryMs = expiryMs
   }
 
   _cleanup() {
@@ -49,10 +50,11 @@ export class TimeLimitedMap extends Map {
 }
 
 export class TimeLimitedSet extends Set {
-  constructor(expiryMs) {
-    super()
-    this._mts = new Map()
-    this.maxMs = expiryMs
+  constructor(expiryMs, iterable= []) {
+    super(iterable)
+    const now = Date.now()
+    this._mts = new Map(iterable.map((item) => [item[0], now]))
+    this.expiryMs = expiryMs
     Object.getOwnPropertyNames(Object.getPrototypeOf(new Set())).forEach((prop) => {
       if (typeof super[prop] === 'function' && prop !== 'constructor') {
         if (prop === 'add') {
@@ -83,11 +85,11 @@ export class TimeLimitedSet extends Set {
   }
 
   setExpiryMs(expiryMs) {
-    this._mts = expiryMs
+    this.expiryMs = expiryMs
   }
 
   _cleanup() {
-    const expiryTimeMts = Date.now() - this.maxMs
+    const expiryTimeMts = Date.now() - this.expiryMs
     for (const [key, mts] of this._mts.entries()) {
       if (mts < expiryTimeMts) {
         this._mts.delete(key)
