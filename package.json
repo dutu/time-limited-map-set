@@ -1,6 +1,6 @@
 {
   "name": "time-limited-map-set",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "time limited map and set",
   "main": "index.mjs",
   "type": "module",
@@ -12,7 +12,10 @@
     "set",
     "timeout",
     "time limit",
-    "expiry"
+    "expiry",
+    "expiration",
+    "expiring",
+    "cache"
   ],
   "author": "dutu <dutu@protonmail.com>",
   "license": "MIT",
